@@ -2,6 +2,8 @@ package com.icia.member.controller;
 
 import com.icia.member.dto.MemberLoginDTO;
 import com.icia.member.dto.MemberSaveDTO;
+import com.icia.member.service.MemberService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,7 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/member/*")
+@RequiredArgsConstructor // 파이널이 붙은 필드만 생성자를 만들어줌
 public class MemberController {
+
+    private final MemberService ms;
+
 
     @GetMapping("save")
     public String save(Model model) {
@@ -28,12 +34,13 @@ public class MemberController {
     }
 
     @PostMapping("save")
-    public String saveForm(@Validated @ModelAttribute("member") MemberSaveDTO ms, BindingResult bindingResult) {
-        System.out.println("ms = " + ms + ", bindingResult = " + bindingResult);
+    public String saveForm(@Validated @ModelAttribute("member") MemberSaveDTO msdto, BindingResult bindingResult) {
+        System.out.println("ms = " + msdto + ", bindingResult = " + bindingResult);
 
         if(bindingResult.hasErrors()){
             return "/member/save";
         } else {
+            ms.save(msdto);
             return "index";
         }
     }
