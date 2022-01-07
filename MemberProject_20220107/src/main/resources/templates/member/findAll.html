@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+        function detail(a) {
+            console.log(a);
+            const reqUrl = "/member/"+a;
+            $.ajax({
+                type:'post',
+                url: reqUrl,
+                dataType: 'json',
+                success:function (result){
+                    console.log(result);
+                    let output = "";
+                    output += "<table>\n" +
+                        "    <thead>\n" +
+                        "        <tr>\n" +
+                        "            <th>번호</th>\n" +
+                        "            <th>이메일</th>\n" +
+                        "            <th>비밀번호</th>\n" +
+                        "            <th>이름</th>\n" +
+                        "        </tr>\n" +
+                        "    </thead>\n" +
+                        "    <tbody>\n" +
+                        "        <tr>\n" +
+                        "            <td>" + result.memberId + "</td>\n" +
+                        "            <td>" + result.memberEmail + "</td>\n" +
+                        "            <td>" + result.memberPassword + "</td>\n" +
+                        "            <td>" + result.memberName + "</td>\n" +
+                        "        </tr>\n" +
+                        "    </tbody>\n" +
+                        "</table>";
+                    document.getElementById("detail-view").innerHTML = output;
+                },
+                error:function (){
+                    console.log("오타를 찾아보아요");
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<h2>findAll</h2>
+<table>
+    <thead>
+    <tr>
+        <th>number</th>
+        <th>email</th>
+        <th>password</th>
+        <th>name</th>
+        <th>detail</th>
+        <th>detail(ajax)</th>
+        <th>delete(get)</th>
+        <th>delete(delete)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="member: ${memberList}">
+        <td th:text="${member.memberId}">number</td>
+        <td th:text="${member.memberEmail}">Email</td>
+        <td th:text="${member.memberPassword}">password</td>
+        <td th:text="${member.memberName}">name</td>
+        <td><a th:href="@{|/member/${member.memberId}|}">detail</a></td>
+        <td><button th:onclick="detail([[${member.memberId}]])">detail(ajax)</button></td>
+        <td><a th:href="@{|/member/delete/${member.memberId}|}">delete</a></td>
+        <td></td>
+    </tr>
+    </tbody>
+</table>
+<div id="detail-view">
+
+</div>
+</body>
+</html>
