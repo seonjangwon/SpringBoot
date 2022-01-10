@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script>
+    function update_btn(){
+        const formData = $("#update_form").serialize();
+        const id = document.getElementById('memberId').value;
+        $.ajax({
+           type:'put',
+           url:'/member/update',
+           data: formData,
+           success: function (){
+               location.href="/member/"+id;
+           },
+            error: function (){
+                alert("실패");
+            }
+        });
+    }
+    const memberUpdate = () => {
+      const id = document.getElementById('memberId').value;
+      const email = document.getElementById('memberEmail').value;
+      const password = $('#memberPassword').val();
+      const name = document.querySelector('#memberName').value;
+      // javascript object에 담아서 ajax로 컨트롤러에 보냄
+      const updateData = JSON.stringify({
+          memberId: id,
+          memberEmail: email,
+          memberPassword: password,
+          memberName: name
+      });
+        $.ajax({
+            type:'put', // put : 덮어씌우기, patch : 수정만
+            url:'/member/'+id,
+            data: updateData,
+            contentType:'application/json',
+            success: function (){
+                location.href="/member/"+id;
+            },
+            error: function (){
+                alert("실패");
+            }
+        });
+
+    }
+</script>
+</head>
+<body>
+<h2>update</h2>
+<form action="/member/update" id="update_form" method="post">
+    <input type="hidden" id="memberId" name="memberId" th:value="${member.memberId}" readonly><br>
+    <input type="text" id="memberEmail" name="memberEmail" th:value="${member.memberEmail}" readonly><br>
+    <input type="text" id="memberPassword" name="memberPassword" th:value="${member.memberPassword}"><br>
+    <input type="text" id="memberName" name="memberName" th:value="${member.memberName}"><br>
+    <input type="submit" value="update"><br>
+    <input type="button" th:onclick="update_btn()"  value="update(ajax)"><br>
+    <input type="button" th:onclick="memberUpdate()"  value="update(ajax2)">
+</form>
+</body>
+</html>

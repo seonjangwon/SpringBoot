@@ -16,4 +16,8 @@ public interface MemberService {
     MemberDetailDTO findById(Long memberId);
 
     void deleteById(Long memberId);
+
+    MemberDetailDTO findByMemberEmail(String loginEmail);
+
+    Long update(MemberDetailDTO memberDetailDTO);
 }

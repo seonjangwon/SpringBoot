@@ -5,6 +5,8 @@ import com.icia.member.dto.MemberLoginDTO;
 import com.icia.member.dto.MemberSaveDTO;
 import com.icia.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
+import java.util.Enumeration;
 import java.util.List;
 
 import static com.icia.member.common.SessionConst.LOGIN_EMAIL;
@@ -27,9 +30,10 @@ public class MemberController {
         return "/member/save";
     }
 
-    @PostMapping
+    @PostMapping("save")
     public String save(@ModelAttribute MemberSaveDTO memberSaveDTO){
-        Long memberId = ms.save(memberSaveDTO);
+        System.out.println("memberSaveDTO = " + memberSaveDTO);
+        ms.save(memberSaveDTO);
         return "member/login";
     }
 
@@ -40,10 +44,10 @@ public class MemberController {
 
     @PostMapping("login")
     public String login(@ModelAttribute MemberLoginDTO memberLoginDTO, HttpSession session){
-
+        System.out.println("memberLoginDTO = " + memberLoginDTO);
         if(ms.login(memberLoginDTO)){
-            session.setAttribute(LOGIN_EMAIL,memberLoginDTO.getMemberEamil());
-            return "/member/findAll";
+            session.setAttribute(LOGIN_EMAIL,memberLoginDTO.getMemberEmail());
+            return "/member/mypage";
         }
         return "/member/login";
     }
@@ -75,5 +79,47 @@ public class MemberController {
         MemberDetailDTO memberDetailDTO = ms.findById(memberId);
         System.out.println("memberId = " + memberId+"memberDetailDTO = "+ memberDetailDTO);
         return memberDetailDTO;
+    }
+
+    /*@DeleteMapping("{memberId}")
+    @ResponseBody
+    public List<MemberDetailDTO> deleteAjax(@PathVariable("memberId") Long memberId){
+        ms.deleteById(memberId);
+        List<MemberDetailDTO> memberDetailDTOList = ms.findAll();
+        return memberDetailDTOList;
+    }*/
+
+    @DeleteMapping("{memberId}")
+    public ResponseEntity deleteAjax(@PathVariable("memberId") Long memberId){
+        ms.deleteById(memberId);
+        //ResponseEntity : 데이터 & 상태코드를 함께 리턴할 수 있음.
+        //@ResponseBody : 데이터를 리턴할 수 있음.
+        // 200 리턴
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("update")
+    public String updateForm(HttpSession session, Model model){
+        String memberEmail = (String) session.getAttribute(LOGIN_EMAIL);
+        MemberDetailDTO memberDetailDTO = ms.findByMemberEmail(memberEmail);
+        model.addAttribute("member",memberDetailDTO);
+        return "/member/update";
+    }
+    @PostMapping("update")
+    public String update(@ModelAttribute MemberDetailDTO memberDetailDTO){
+        Long memberId = ms.update(memberDetailDTO);
+        return "redirect:/member/"+memberDetailDTO.getMemberId();
+    }
+
+    @PutMapping("{memberId}")
+    public ResponseEntity updateAjax(@RequestBody MemberDetailDTO memberDetailDTO){
+        Long memberId = ms.update(memberDetailDTO);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PutMapping("update")
+    public ResponseEntity updateAjax2(@ModelAttribute MemberDetailDTO memberDetailDTO){
+        Long memberId = ms.update(memberDetailDTO);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

@@ -7,12 +7,12 @@
     <script>
         function detail(a) {
             console.log(a);
-            const reqUrl = "/member/"+a;
+            const reqUrl = "/member/" + a;
             $.ajax({
-                type:'post',
+                type: 'post',
                 url: reqUrl,
                 dataType: 'json',
-                success:function (result){
+                success: function (result) {
                     console.log(result);
                     let output = "";
                     output += "<table>\n" +
@@ -35,41 +35,113 @@
                         "</table>";
                     document.getElementById("detail-view").innerHTML = output;
                 },
-                error:function (){
+                error: function () {
                     console.log("오타를 찾아보아요");
                 }
             })
+        }
+
+        function delete_btn(memberId) {
+            const reqUrl = "/member/" + memberId;
+            $.ajax({
+                type: 'delete',
+                url: reqUrl,
+                dataType: 'json',
+                success: function (result) {
+                    let output = "";
+                    output = "<table>\n" +
+                        "        <thead>\n" +
+                        "        <tr>\n" +
+                        "            <th>number</th>\n" +
+                        "            <th>email</th>\n" +
+                        "            <th>password</th>\n" +
+                        "            <th>name</th>\n" +
+                        "            <th>detail</th>\n" +
+                        "            <th>detail(ajax)</th>\n" +
+                        "            <th>delete(get)</th>\n" +
+                        "            <th>delete(delete)</th>\n" +
+                        "        </tr>\n" +
+                        "        </thead>\n" +
+                        "        <tbody>\n";
+                        $.each(result, function (i) {
+                            output += "<tr>";
+                            output += "<td>"+result[i].memberId+"</td>";
+                            output += "<td>"+result[i].memberEmail+"</td>";
+                            output += "<td>"+result[i].memberPassword+"</td>";
+                            output += "<td>"+result[i].memberName+"</td>";
+                            output += "<td><a href=\"/member/"+result[i].memberId+"}\">detail</a></td>";
+                            output += "<td><button onclick=\"detail("+result[i].memberId+")\">detail(ajax)</button></td>";
+                            output += "<td><a href=\"/member/"+result[i].memberId+"}\">delete(get)</a></td>";
+                            output += "<td><button onclick=\"delete_btn("+result[i].memberId+")\">delete(ajax)</button></td>";
+                            output += "</tr>";
+                        });
+                    output +="        </tbody>\n" +
+                    "    </table>";
+
+                    document.getElementById('list-view').innerHTML = output;
+                },
+                error: function () {
+
+                }
+            });
+        }
+        function delete_btn2(memberId) {
+            const reqUrl = "/member/" + memberId;
+            $.ajax({
+                type: 'delete',
+                url: reqUrl,
+                success: function () {
+                    location.href= "/member/";
+                },
+                error: function () {
+
+                }
+            });
+        }
+        // 함수 이름 : deleteFn, 매개변수 : memberId
+        const deleteFn = (memberId) => {
+            console.log(memberId);
+        }
+        // 함수이름 : deleteFn2
+        const deleteFn2 = () =>{
+            console.log("hi");
         }
     </script>
 </head>
 <body>
 <h2>findAll</h2>
-<table>
-    <thead>
-    <tr>
-        <th>number</th>
-        <th>email</th>
-        <th>password</th>
-        <th>name</th>
-        <th>detail</th>
-        <th>detail(ajax)</th>
-        <th>delete(get)</th>
-        <th>delete(delete)</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="member: ${memberList}">
-        <td th:text="${member.memberId}">number</td>
-        <td th:text="${member.memberEmail}">Email</td>
-        <td th:text="${member.memberPassword}">password</td>
-        <td th:text="${member.memberName}">name</td>
-        <td><a th:href="@{|/member/${member.memberId}|}">detail</a></td>
-        <td><button th:onclick="detail([[${member.memberId}]])">detail(ajax)</button></td>
-        <td><a th:href="@{|/member/delete/${member.memberId}|}">delete</a></td>
-        <td></td>
-    </tr>
-    </tbody>
-</table>
+<div id="list-view">
+    <table>
+        <thead>
+        <tr>
+            <th>number</th>
+            <th>email</th>
+            <th>password</th>
+            <th>name</th>
+            <th>detail</th>
+            <th>detail(ajax)</th>
+            <th>delete(get)</th>
+            <th>delete(delete)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="member: ${memberList}">
+            <td th:text="${member.memberId}">number</td>
+            <td th:text="${member.memberEmail}">Email</td>
+            <td th:text="${member.memberPassword}">password</td>
+            <td th:text="${member.memberName}">name</td>
+            <td><a th:href="@{|/member/${member.memberId}|}">detail</a></td>
+            <td>
+                <button th:onclick="detail([[${member.memberId}]])">detail(ajax)</button>
+            </td>
+            <td><a th:href="@{|/member/delete/${member.memberId}|}">delete(get)</a></td>
+            <td>
+                <button th:onclick="delete_btn2([[${member.memberId}]])">delete(ajax)</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 <div id="detail-view">
 
 </div>

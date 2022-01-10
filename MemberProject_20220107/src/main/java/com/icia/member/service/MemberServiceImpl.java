@@ -19,13 +19,14 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public Long save(MemberSaveDTO memberSaveDTO) {
         MemberEntity memberEntity = MemberEntity.saveMember(memberSaveDTO);
+        System.out.println("memberSaveDTO = " + memberSaveDTO);
         return mr.save(memberEntity).getId();
     }
 
     @Override
     public boolean login(MemberLoginDTO memberLoginDTO) {
-        MemberEntity memberEntity = mr.findByMemberEmail(memberLoginDTO.getMemberEamil());
-
+        MemberEntity memberEntity = mr.findByMemberEmail(memberLoginDTO.getMemberEmail());
+        System.out.println("MemberServiceImpl.login"+memberLoginDTO);
         if(memberEntity!=null){
             if(memberEntity.getMemberPassword().equals(memberLoginDTO.getMemberPassword())){
                 return true;
@@ -53,5 +54,17 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public void deleteById(Long memberId) {
         mr.deleteById(memberId);
+    }
+
+    @Override
+    public MemberDetailDTO findByMemberEmail(String loginEmail) {
+        return MemberDetailDTO.memberDetail(mr.findByMemberEmail(loginEmail));
+    }
+
+    @Override
+    public Long update(MemberDetailDTO memberDetailDTO) {
+        // update 처리시 save 메서드 호출.
+        // memberDetailDTO > MemberEntity
+        return mr.save(MemberEntity.toUpdateMember(memberDetailDTO)).getId();
     }
 }

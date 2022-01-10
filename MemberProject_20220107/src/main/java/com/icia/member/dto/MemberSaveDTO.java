@@ -10,11 +10,8 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberSaveDTO {
-    @NotBlank
     private String memberEmail;
-    @NotBlank
     private String memberPassword;
-    @NotBlank
     private String memberName;
 
 }
