@@ -38,16 +38,21 @@ public class MemberController {
     }
 
     @GetMapping("login")
-    public String loginForm(){
+    public String loginForm(@RequestParam(defaultValue = "/") String redirectURL,Model model) {
+        System.out.println("MemberController.loginForm");
+        model.addAttribute("redirectURL",redirectURL);
         return "/member/login";
     }
 
     @PostMapping("login")
-    public String login(@ModelAttribute MemberLoginDTO memberLoginDTO, HttpSession session){
-        System.out.println("memberLoginDTO = " + memberLoginDTO);
+    public String login(//@RequestParam(defaultValue = "/") String redirectURL,
+                        @ModelAttribute MemberLoginDTO memberLoginDTO, HttpSession session){
+        System.out.println("MemberController.login");
+        System.out.println("memberLoginDTO = " + memberLoginDTO.getRedirectURL());
         if(ms.login(memberLoginDTO)){
             session.setAttribute(LOGIN_EMAIL,memberLoginDTO.getMemberEmail());
-            return "/member/mypage";
+            // return "/member/mypage";
+            return "redirect:"+memberLoginDTO.getRedirectURL();
         }
         return "/member/login";
     }
@@ -121,5 +126,11 @@ public class MemberController {
     public ResponseEntity updateAjax2(@ModelAttribute MemberDetailDTO memberDetailDTO){
         Long memberId = ms.update(memberDetailDTO);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "index";
     }
 }

@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <h2>index</h2>
+세션 : <p th:text="${session['loginEmail']}"></p><br>
 <a href="/member/save">save</a><br>
 <a href="/member/login">login</a><br>
-<a href="/member/">findAll</a>
+<a href="/member/">findAll</a><br>
+<a href="/member/logout">logout</a><br>
 </body>
 </html>

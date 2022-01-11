@@ -10,4 +10,10 @@ import lombok.NoArgsConstructor;
 public class MemberLoginDTO {
     private String memberEmail;
     private String memberPassword;
+    private String redirectURL;
+
+    public MemberLoginDTO (String memberEmail, String memberPassword){
+        this.memberEmail=memberEmail;
+        this.memberPassword=memberPassword;
+    }
 }

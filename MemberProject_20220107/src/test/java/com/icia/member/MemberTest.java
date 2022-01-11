@@ -2,7 +2,9 @@ package com.icia.member;
 
 import com.icia.member.dto.MemberDetailDTO;
 import com.icia.member.dto.MemberLoginDTO;
+import com.icia.member.dto.MemberMapperDTO;
 import com.icia.member.dto.MemberSaveDTO;
+import com.icia.member.repository.MemberMapperRepository;
 import com.icia.member.service.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +16,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.IntStream;
 
@@ -21,6 +24,9 @@ import java.util.stream.IntStream;
 public class MemberTest {
     @Autowired
     private MemberService ms;
+
+    @Autowired
+    private MemberMapperRepository mmr;
 
     @Test
     @DisplayName("테스트")
@@ -75,5 +81,14 @@ public class MemberTest {
         System.out.println(memberDetailDTO3);
         // then
         assertThat(memberSaveDTO1.getMemberName()).isNotEqualTo(memberDetailDTO3.getMemberName());
+    }
+
+    @Test
+    @DisplayName("mybatis 회원목록 테스트")
+    public void memberListTest(){
+        List<MemberMapperDTO> memberDetailDTOList = mmr.memberList();
+        for(MemberMapperDTO m : memberDetailDTOList){
+            System.out.println(m);
+        }
     }
 }
