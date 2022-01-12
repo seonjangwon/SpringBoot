@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .field-error{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<h2>save</h2>
+<form action="/board/save" method="post" th:object="${board}">
+    <input type="text" th:field="*{boardWriter}" placeholder="작성자"><br>
+    <p th:if="${#fields.hasErrors('boardWriter')}" th:errors="*{boardWriter}" th:errorclass="field-error"></p>
+    <input type="password" th:field="*{boardPassword}" placeholder="비밀번호"><br>
+    <p th:if="${#fields.hasErrors('boardPassword')}" th:errors="*{boardPassword}" th:errorclass="field-error"></p>
+    <input type="text" th:field="*{boardTitle}" placeholder="글 제목"><br>
+    <p th:if="${#fields.hasErrors('boardTitle')}" th:errors="*{boardTitle}" th:errorclass="field-error"></p>
+    <input type="text" th:field="*{boardContents}" placeholder="글 내용"><br>
+    <p th:if="${#fields.hasErrors('boardContents')}" th:errors="*{boardContents}" th:errorclass="field-error"></p>
+    <input type="submit" value="작성"><br>
+</form>
+</body>
+</html>

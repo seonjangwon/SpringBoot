@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+        function detail(boardId){
+            $.ajax({
+                type:'post',
+                url:"/board/"+boardId,
+                dataType:'json',
+                success: function(result){
+                    let output = "<table>\n" +
+                        "    <thead>\n" +
+                        "    <tr>\n" +
+                        "        <th>번호</th>\n" +
+                        "        <th>작성자</th>\n" +
+                        "        <th>비밀번호</th>\n" +
+                        "        <th>제목</th>\n" +
+                        "        <th>내용</th>\n" +
+                        "        <th>작성일</th>\n" +
+                        "    </tr>\n" +
+                        "    </thead>\n" +
+                        "    <tbody>\n" +
+                        "        <tr >\n" +
+                        "            <td>"+result.boardId+"</td>\n" +
+                        "            <td>"+result.boardWriter+"</td>\n" +
+                        "            <td>"+result.boardPassword+"</td>\n" +
+                        "            <td>"+result.boardTitle+"</td>\n" +
+                        "            <td>"+result.boardContents+"</td>\n" +
+                        "            <td>"+result.boardDate+"</td>\n" +
+                        "        </tr>\n" +
+                        "    </tbody>\n" +
+                        "</table>";
+                    document.getElementById('detail-view').innerHTML = output;
+                },
+                error:function(){
+
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>번호</th>
+        <th>작성자</th>
+        <th>비밀번호</th>
+        <th>제목</th>
+        <th>내용</th>
+        <th>작성일</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr th:each="board :${boardList}" >
+            <td th:text="${board.boardId}"></td>
+            <td th:text="${board.boardWriter}"></td>
+            <td th:text="${board.boardPassword}"></td>
+            <td><a th:href="@{|/board/${board.boardId}|}"><span th:text="${board.boardTitle}"></span></a></td>
+            <td><button th:onclick="detail([[${board.boardId}]])" ><span th:text="${board.boardTitle}"></span>ajax</button></td>
+            <td th:text="${board.boardTitle}"></td>
+            <td th:text="${board.boardContents}"></td>
+            <td th:text="${board.boardDate}"></td>
+        </tr>
+    </tbody>
+</table>
+<div id="detail-view"></div>
+</body>
+</html>
