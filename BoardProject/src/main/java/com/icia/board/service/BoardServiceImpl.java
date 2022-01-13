@@ -16,8 +16,8 @@ public class BoardServiceImpl implements BoardService{
     private final BoardRepository br;
 
     @Override
-    public void save(BoardDTO boardDTO) {
-        br.save(new BoardEntity().toSaveEntity(boardDTO));
+    public Long save(BoardDTO boardDTO) {
+        return br.save(new BoardEntity().toSaveEntity(boardDTO)).getId();
     }
 
     @Override
@@ -36,5 +36,15 @@ public class BoardServiceImpl implements BoardService{
     public BoardDetailDTO findById(Long boardId) {
         System.out.println("BoardServiceImpl.findById");
         return new  BoardDetailDTO().toBoardDetailDTO(br.findById(boardId).get());
+    }
+
+    @Override
+    public void update(BoardDetailDTO boardDetailDTO) {
+        BoardDetailDTO boardDetailDTO1 = findById(boardDetailDTO.getBoardId());
+        if(boardDetailDTO1.getBoardPassword().equals(boardDetailDTO.getBoardPassword())){
+            br.save(BoardEntity.toUpdateEntity(boardDetailDTO));
+        } else
+            throw new IllegalStateException("비밀번호가 틀립니다.");
+
     }
 }

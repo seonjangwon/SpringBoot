@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+        const update_btn = (boardId) => {
+            const update_form = JSON.stringify({
+                boardId:document.getElementById('boardId').value,
+                boardWriter:document.getElementById('boardWriter').value,
+                boardTitle:document.getElementById('boardTitle').value,
+                boardPassword:document.getElementById('boardPassword').value,
+                boardContents:document.getElementById('boardContents').value
+            });
+            console.log(update_form)
+            const view = document.getElementById('pwch');
+
+            $.ajax({
+                type:'put',
+                url:'/board/update',
+                data: update_form,
+                dataType:'text',
+                contentType:'application/json',
+                success: function (result){
+                    console.log(result);
+                    if(result=='ok'){
+                        location.href='/board/'+ document.getElementById('boardId').value;
+                    }else {
+                        let output = "비밀번호가 틀립니다";
+                        view.innerHTML=output;
+                    }
+
+                },
+                error: function (){
+                    alert('오류 찾자');
+                }
+            })
+
+        };
+    </script>
+</head>
+<body>
+<h2>update</h2>
+<form action="/board/update" method="post" th:object="${board}">
+    <div id="pwch"></div>
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
+    </div>
+    <input type="hidden" th:field="*{boardId}" th:value="*{boardId}" readonly><br>
+    <input type="text" th:field="*{boardWriter}" th:value="*{boardWriter}" readonly><br>
+    <input type="text" th:field="*{boardPassword}"><br>
+    <input type="text" th:field="*{boardTitle}" th:value="*{boardTitle}"><br>
+    <input type="text" th:field="*{boardContents}" th:value="*{boardContents}"><br>
+    <input type="submit" value="수정하기">
+</form>
+    <button th:onclick="update_btn([[${boardId}]])">수정하기(ajax)</button>
+</body>
+</html>

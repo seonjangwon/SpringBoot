@@ -6,9 +6,11 @@ import com.icia.board.dto.BoardDetailDTO;
 import java.util.List;
 
 public interface BoardService {
-    void save(BoardDTO boardDTO);
+    Long save(BoardDTO boardDTO);
 
     List<BoardDetailDTO> findAll();
 
     BoardDetailDTO findById(Long boardId);
+
+    void update(BoardDetailDTO boardDetailDTO);
 }

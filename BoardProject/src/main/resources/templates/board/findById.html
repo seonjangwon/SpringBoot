@@ -14,6 +14,7 @@
             <th>제목</th>
             <th>내용</th>
             <th>작성일</th>
+            <th>수정</th>
         </tr>
     </thead>
     <tbody>
@@ -24,6 +25,7 @@
             <td th:text="${board.boardTitle}"></td>
             <td th:text="${board.boardContents}"></td>
             <td th:text="${board.boardDate}"></td>
+            <td><a th:href="@{|/board/update/${board.boardId}|}">수정</a></td>
         </tr>
     </tbody>
 </table>
