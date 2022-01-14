@@ -17,6 +17,7 @@ public class BoardDetailDTO {
     private String boardTitle;
     private String boardContents;
     private LocalDateTime boardDate;
+    private int boardHits;
 
     /*public BoardDetailDTO(Long boardId, String boardWriter, String boardPassword, String boardTitle, String boardContents, LocalDateTime boardDate) {
         this.boardId = boardId;
@@ -34,6 +35,7 @@ public class BoardDetailDTO {
         boardDetailDTO.setBoardPassword(boardEntity.getBoardPassword());
         boardDetailDTO.setBoardTitle(boardEntity.getBoardTitle());
         boardDetailDTO.setBoardContents(boardEntity.getBoardContents());
+        boardDetailDTO.setBoardHits(boardEntity.getBoardHits());
         if(boardEntity.getUpdateTime()==null){
             boardDetailDTO.setBoardDate(boardEntity.getCreateTime());
         } else {

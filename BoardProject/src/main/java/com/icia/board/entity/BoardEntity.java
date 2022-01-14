@@ -29,6 +29,8 @@ public class BoardEntity extends BaseEntity {
 
     private String boardContents;
 
+    private int boardHits;
+
 //    private LocalDateTime boardDate;
 
     public static BoardEntity toSaveEntity(BoardDTO boardDTO){
@@ -37,6 +39,7 @@ public class BoardEntity extends BaseEntity {
         boardEntity.setBoardPassword(boardDTO.getBoardPassword());
         boardEntity.setBoardTitle(boardDTO.getBoardTitle());
         boardEntity.setBoardContents(boardDTO.getBoardContents());
+        boardEntity.setBoardHits(0);
 //        boardEntity.setBoardDate(LocalDateTime.now());
         return boardEntity;
     }
@@ -47,6 +50,7 @@ public class BoardEntity extends BaseEntity {
         boardEntity.setBoardPassword(boardDetailDTO.getBoardPassword());
         boardEntity.setBoardTitle(boardDetailDTO.getBoardTitle());
         boardEntity.setBoardContents(boardDetailDTO.getBoardContents());
+        boardEntity.setBoardHits(boardDetailDTO.getBoardHits());
 //        boardEntity.setBoardDate(LocalDateTime.now());
         return boardEntity;
     }
