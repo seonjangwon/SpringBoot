@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -30,6 +32,15 @@ public class BoardEntity extends BaseEntity {
     private String boardContents;
 
     private int boardHits;
+
+    @OneToMany(mappedBy = "boardEntity" , cascade = CascadeType.ALL, orphanRemoval = true, fetch =  FetchType.LAZY)
+    private List<CommentEntity> commentEntityList = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private MemberEntity memberEntity;
+
+
 
 //    private LocalDateTime boardDate;
 

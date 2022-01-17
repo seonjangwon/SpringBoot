@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
 </head>
 <body>
 <table>
@@ -31,5 +33,54 @@
         </tr>
     </tbody>
 </table>
+
+<div id="comment-write">
+    <input type="text" id="commentWriter" placeholder="작성자">
+    <input type="text" id="commentContents" placeholder="내용">
+    <button id="comment-write-btn">댓글등록</button>
+</div>
+
+<div id="comment-area">
+    <table>
+        <thead>
+            <tr>
+                <th>댓글번호</th>
+                <th>작성자</th>
+                <th>내용</th>
+                <th>작성시간</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+
+            </tr>
+        </tbody>
+    </table>
+</div>
 </body>
+<script>
+    $("#comment-write-btn").click(function (){
+        console.log("댓글등록 버튼 클릭");
+        const writer = $("#commentWriter").val();
+        const contents = $("#commentContents").val();
+        const id = '[[${board.boardId}]]';
+
+        $.ajax({
+            type:'post',
+            url:'/comment/save',
+            data:{
+                'commentWriter':writerl,
+                'commentContents': contents,
+                'boardId' : id
+            },
+            dataType:'json',
+            success:function (result) {
+                console.log(result);
+            },
+            error: function (){
+                alert("실패");
+            }
+        })
+    })
+</script>
 </html>

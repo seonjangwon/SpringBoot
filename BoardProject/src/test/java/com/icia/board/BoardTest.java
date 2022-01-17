@@ -172,4 +172,13 @@ public class BoardTest {
         System.out.println("hits.getBoardHits() = " + hits.getBoardHits());
     }
 
+
+    @Test
+    @Transactional
+    @Rollback(value = false)
+    @DisplayName("게시글 삭제")
+    public void boardDelete(){
+        br.deleteById(1l);
+    }
+
 }
