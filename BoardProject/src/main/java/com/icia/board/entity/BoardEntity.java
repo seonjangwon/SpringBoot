@@ -44,13 +44,14 @@ public class BoardEntity extends BaseEntity {
 
 //    private LocalDateTime boardDate;
 
-    public static BoardEntity toSaveEntity(BoardDTO boardDTO){
+    public static BoardEntity toSaveEntity(BoardDTO boardDTO, MemberEntity memberEntity){
         BoardEntity boardEntity = new BoardEntity();
-        boardEntity.setBoardWriter(boardDTO.getBoardWriter());
+        boardEntity.setBoardWriter(memberEntity.getMemberEmail());
         boardEntity.setBoardPassword(boardDTO.getBoardPassword());
         boardEntity.setBoardTitle(boardDTO.getBoardTitle());
         boardEntity.setBoardContents(boardDTO.getBoardContents());
         boardEntity.setBoardHits(0);
+        boardEntity.setMemberEntity(memberEntity);
 //        boardEntity.setBoardDate(LocalDateTime.now());
         return boardEntity;
     }

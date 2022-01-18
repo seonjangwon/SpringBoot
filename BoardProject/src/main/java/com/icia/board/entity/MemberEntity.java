@@ -32,6 +32,7 @@ public class MemberEntity {
     @Column
     private String memberName;
 
+    // cascade방법
     @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<BoardEntity> boardEntityList = new ArrayList<>();
 
@@ -39,6 +40,22 @@ public class MemberEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<CommentEntity> commentEntityList = new ArrayList<>();
 
+    // null방법
+//    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.PERSIST, orphanRemoval = false, fetch = FetchType.LAZY)
+//    private List<BoardEntity> boardEntityList = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.PERSIST, orphanRemoval = false, fetch = FetchType.LAZY)
+//    @OnDelete(action = OnDeleteAction.CASCADE)
+//    private List<CommentEntity> commentEntityList = new ArrayList<>();
 
+//    @PreRemove
+//    private void preRemove(){
+//        System.out.println("MemberEntity.preRemove");
+//        boardEntityList.forEach(board -> board.setMemberEntity(null));
+////        for (BoardEntity board: boardEntityList) {
+////            board.setMemberEntity(null);
+////        }
+//        commentEntityList.forEach(comment -> comment.setMemberEntity(null));
+//    }
 
 }

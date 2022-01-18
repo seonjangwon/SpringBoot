@@ -4,8 +4,10 @@ import com.icia.board.dto.CommentDetailDTO;
 import com.icia.board.dto.CommentSaveDTO;
 import com.icia.board.entity.BoardEntity;
 import com.icia.board.entity.CommentEntity;
+import com.icia.board.entity.MemberEntity;
 import com.icia.board.repository.BoardRepository;
 import com.icia.board.repository.CommentRepository;
+import com.icia.board.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +20,13 @@ public class CommentServiceImpl implements CommenService{
 
     private final CommentRepository cr;
     private final BoardRepository br;
+    private final MemberRepository mr;
 
     @Override
     public Long save(CommentSaveDTO commentSaveDTO) {
         BoardEntity boardEntity = br.findById(commentSaveDTO.getBoardId()).get();
-        CommentEntity commentEntity = CommentEntity.toSaveEntity(commentSaveDTO, boardEntity);
+        MemberEntity memberEntity = mr.findByMemberEmail(commentSaveDTO.getCommentWriter());
+        CommentEntity commentEntity = CommentEntity.toSaveEntity(commentSaveDTO, boardEntity,memberEntity);
         return cr.save(commentEntity).getId();
     }
 

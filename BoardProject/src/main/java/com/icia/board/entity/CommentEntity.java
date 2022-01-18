@@ -31,11 +31,12 @@ public class CommentEntity extends BaseEntity {
 
 
     public static CommentEntity toSaveEntity (CommentSaveDTO commentSaveDTO,
-                                              BoardEntity boardEntity){
+                                              BoardEntity boardEntity,MemberEntity memberEntity){
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setBoardEntity(boardEntity);
-        commentEntity.setCommentWriter(commentSaveDTO.getCommentWriter());
+        commentEntity.setCommentWriter(memberEntity.getMemberEmail());
         commentEntity.setCommentContents(commentSaveDTO.getCommentContents());
+        commentEntity.setMemberEntity(memberEntity);
         return commentEntity;
     }
 }
