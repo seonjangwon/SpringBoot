@@ -104,7 +104,7 @@ public class MemberController {
         return "/member/mypage";
     }
 
-    @GetMapping("admain")
+    @GetMapping("admin")
     public String admin(){
 
         return "/member/admin";
@@ -118,7 +118,7 @@ public class MemberController {
     }
 
 
-    @GetMapping("delete/{memberId")
+    @GetMapping("delete/{memberId}")
     public String delete(@PathVariable("memberId") Long memberId){
         ms.delete(memberId);
 

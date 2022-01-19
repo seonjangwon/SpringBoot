@@ -40,9 +40,9 @@
             <td th:text="*{member.memberPassword}"></td>
             <td th:text="*{member.memberName}"></td>
             <td th:text="*{member.memberPhone}"></td>
-            <td><img th:src="@{|/resuorces/static/upload/${member.memberFilename}|}" alt="프로필 사진"></td>
+            <td><img th:src="@{|/upload/${member.memberFilename}|}" alt="프로필 사진"></td>
             <td th:text="*{member.memberTime}"></td>
-            <td><a th:href="@{|/member/delete/delete/${member.id}|}">삭제</a></td>
+            <td><a th:href="@{|/member/delete/${member.id}|}">삭제</a></td>
             <td><button th:onclick="delete_btn([[${member.id}]])">삭제(ajax)</button></td>
         </tr>
     </tbody>

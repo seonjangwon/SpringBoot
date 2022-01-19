@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Getter @Setter
 @Table(name = "board_table")
-public class BoardEntity {
+public class BoardEntity extends BaseEntity{
     @Id
     @GeneratedValue
     @Column(name = "board_table")
@@ -32,7 +32,7 @@ public class BoardEntity {
     private MemberEntity memberEntity;
 
 
-    private static BoardEntity toSaveBoard(BoardSaveDTO boardSaveDTO, MemberEntity memberEntity) {
+    public static BoardEntity toSaveBoard(BoardSaveDTO boardSaveDTO, MemberEntity memberEntity) {
         BoardEntity boardEntity = new BoardEntity();
         boardEntity.setBoardWriter(memberEntity.getMemberEmail());
         boardEntity.setBoardTitle(boardSaveDTO.getBoardTitle());

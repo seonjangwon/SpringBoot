@@ -1,5 +1,5 @@
 server:
-  port: 8094
+  port: 8095
 
 # DB 접속 정보
 spring:
@@ -17,4 +17,4 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update

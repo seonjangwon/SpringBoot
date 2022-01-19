@@ -14,6 +14,7 @@
     <a href="/member/logout">로그아웃</a><br>
     <a th:href="@{|/member/${session.loginEmail}|}">마이페이지</a>
     <a href="/board/save">게시글 작성</a><br>
+    <a href="/board/">게시글 목록</a><br>
 </div>
 <div th:if="${session.loginEmail == 'admin'}">
     <a href="/member/admin">관리자</a>
