@@ -11,7 +11,7 @@
 </head>
 <body>
 <h2>update</h2>
-<form action="/member/" method="post" th:object="${member}" enctype="multipart/form-data">
+<form action="/member/" method="put" th:object="${member}" enctype="multipart/form-data">
     <input type="hidden" th:field="*{id}">
     <div th:if="${#fields.hasGlobalErrors()}">
         <p class="error-view" th:each="err : ${#fields.globalErrors()}" th:text="${err}" >글로벌 오류</p>

@@ -11,6 +11,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.IOException;
 
@@ -32,7 +34,7 @@ public class BoardController {
     public String save(@ModelAttribute("board") BoardSaveDTO boardSaveDTO) throws IOException {
         bs.save(boardSaveDTO);
 
-        return "/board/findAll";
+        return "redirect:/board/findAll";
     }
 
 
@@ -51,6 +53,69 @@ public class BoardController {
         model.addAttribute("endPage",endPage);
         model.addAttribute("pageLimit",pageable.getPageSize());
         return "/board/findAll";
+    }
+
+    @GetMapping("/{boardId}")
+    public String findById(@PathVariable("boardId") Long boardId,Model model){
+        BoardDetailDTO boardDetailDTO = bs.findById(boardId);
+        model.addAttribute("board",boardDetailDTO);
+        return "/board/findById";
+    }
+
+    @GetMapping("/update/{boardId}")
+    public String updateForm(@PathVariable("boardId") Long boardId, Model model){
+        BoardDetailDTO boardDetailDTO = bs.findById(boardId);
+        model.addAttribute("board",boardDetailDTO);
+        return "/board/update";
+    }
+
+    @PostMapping
+    public String update(@ModelAttribute("board") BoardDetailDTO boardDetailDTO) throws IOException {
+        bs.update(boardDetailDTO);
+
+        return "redirect:/board/"+boardDetailDTO.getId();
+    }
+
+    @PutMapping
+    @ResponseBody
+    public String updateAjax(@RequestParam(value = "boardFile", required = false) MultipartFile boardFile,
+                             MultipartHttpServletRequest multipartHttpServletRequest,
+                             @RequestParam("id") Long boardId,
+                             @RequestParam("boardTitle") String boardTitle,
+                             @RequestParam("boardWriter") String boardWriter,
+                             @RequestParam("boardContents") String boardContents
+                             ) throws IOException {
+        BoardDetailDTO boardDetailDTO = new BoardDetailDTO();
+        boardDetailDTO.setId(boardId);
+        boardDetailDTO.setBoardTitle(boardTitle);
+        boardDetailDTO.setBoardWriter(boardWriter);
+        boardDetailDTO.setBoardContents(boardContents);
+        boardDetailDTO.setBoardFile(boardFile);
+        System.out.println("boardDetailDTO = " + boardDetailDTO);
+        bs.update(boardDetailDTO);
+
+        return "/board/"+boardDetailDTO.getId();
+    }
+
+    @GetMapping("/search")
+    public String search(@PageableDefault(page = 0,size = 5,sort = "id",direction = Sort.Direction.DESC) Pageable pageable,
+                          @RequestParam("searchType") String searchType,
+                          @RequestParam("keyword") String keyword,
+                          Model model){
+        System.out.println("BoardController.search");
+        System.out.println("pageable = " + pageable);
+        Page<BoardDetailDTO> pageList = bs.searchList(pageable,searchType,keyword);
+        int startPage =(((int)(Math.ceil((double) (pageable.getPageNumber()+1)/BLOCK_LIMIT)))-1)
+                *BLOCK_LIMIT+1;
+        int endPage = ((startPage+BLOCK_LIMIT-1)<(pageList.getTotalPages()+1)) ?
+                startPage+BLOCK_LIMIT-1 :pageList.getTotalPages();
+        model.addAttribute("boardList",pageList);
+        model.addAttribute("startPage",startPage);
+        model.addAttribute("endPage",endPage);
+        model.addAttribute("pageLimit",pageable.getPageSize());
+        model.addAttribute("searchType",searchType);
+        model.addAttribute("keyword",keyword);
+        return "/board/search";
     }
 
 }

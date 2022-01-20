@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import java.io.File;
@@ -20,8 +21,19 @@ public class BoardDetailDTO {
     private String boardWriter;
     private String boardContents;
     private int boardHits;
+    private MultipartFile boardFile;
     private String boardFilename;
     private LocalDateTime boardTime;
+
+    public BoardDetailDTO(Long id, String boardTitle, String boardWriter, String boardContents, int boardHits, String boardFilename, LocalDateTime boardTime) {
+        this.id = id;
+        this.boardTitle = boardTitle;
+        this.boardWriter = boardWriter;
+        this.boardContents = boardContents;
+        this.boardHits = boardHits;
+        this.boardFilename = boardFilename;
+        this.boardTime = boardTime;
+    }
 
     public static BoardDetailDTO toDetailDTO(BoardEntity boardEntity){
         BoardDetailDTO boardDetailDTO = new BoardDetailDTO();
@@ -29,7 +41,7 @@ public class BoardDetailDTO {
         boardDetailDTO.setBoardTitle(boardEntity.getBoardTitle());
         boardDetailDTO.setBoardWriter(boardEntity.getBoardWriter());
         boardDetailDTO.setBoardContents(boardEntity.getBoardContents());
-        boardDetailDTO.setBoardHits(boardDetailDTO.getBoardHits());
+        boardDetailDTO.setBoardHits(boardEntity.getBoardHits());
         if(boardEntity.getUpdateTime()==null){
             boardDetailDTO.setBoardTime(boardEntity.getCreateTime());
         } else {

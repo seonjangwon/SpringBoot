@@ -6,7 +6,7 @@
 </head>
 <body>
 <h2>게시글 작성</h2>
-<form action="/board/save" method="post" th:object="${board}">
+<form action="/board/save" method="post" th:object="${board}" enctype="multipart/form-data">
     <input type="text" name="boardWriter" th:value="${session.loginEmail}" readonly><br>
     <input type="text" th:field="*{boardTitle}" placeholder="제목"><br>
     <input type="text" th:field="*{boardContents}" placeholder="내용"><br>

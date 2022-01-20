@@ -11,4 +11,10 @@ public interface BoardService {
     void save(BoardSaveDTO boardSaveDTO) throws IOException;
 
     Page<BoardDetailDTO> findAll(Pageable pageable);
+
+    BoardDetailDTO findById(Long boardId);
+
+    void update(BoardDetailDTO boardDetailDTO) throws IOException;
+
+    Page<BoardDetailDTO> searchList(Pageable pageable, String searchType, String keyword);
 }

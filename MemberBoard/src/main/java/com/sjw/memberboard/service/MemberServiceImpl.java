@@ -18,9 +18,10 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
     private final MemberRepository mr;
     private final HttpSession session;
+
     @Override
     public Long save(MemberSaveDTO memberSaveDTO) throws IOException {
         MultipartFile file = memberSaveDTO.getMemberFile();
@@ -29,7 +30,7 @@ public class MemberServiceImpl implements MemberService{
 
         filename = System.currentTimeMillis() + filename;
 
-        String savePath = "D:\\development\\source\\SpringBoot\\MemberBoard\\src\\main\\resources\\static\\upload\\"+filename;
+        String savePath = "D:\\development\\source\\SpringBoot\\MemberBoard\\src\\main\\resources\\static\\upload\\" + filename;
 
         if (!file.isEmpty()) {
             file.transferTo(new File(savePath));
@@ -57,11 +58,11 @@ public class MemberServiceImpl implements MemberService{
     public void login(MemberDetailDTO memberDetailDTO) {
         Optional<MemberEntity> memberEntity = mr.findByMemberEmail(memberDetailDTO.getMemberEmail());
 
-        if (memberEntity.isPresent()){ // 있으면
-            if(!memberEntity.get().getMemberPassword().equals(memberDetailDTO.getMemberPassword())){
+        if (memberEntity.isPresent()) { // 있으면
+            if (!memberEntity.get().getMemberPassword().equals(memberDetailDTO.getMemberPassword())) {
                 throw new IllegalStateException("이메일 또는 비밀번호가 다릅니다");
             } else {
-                session.setAttribute("loginEmail",memberDetailDTO.getMemberEmail());
+                session.setAttribute("loginEmail", memberDetailDTO.getMemberEmail());
             }
         } else { // 없으면
             throw new IllegalStateException("이메일 또는 비밀번호가 다릅니다");
@@ -77,28 +78,33 @@ public class MemberServiceImpl implements MemberService{
     public void update(MemberDetailDTO memberDetailDTO) throws IOException {
         MemberEntity memberEntity = mr.findById(memberDetailDTO.getId()).get();
 
-        if(memberEntity.getMemberPassword().equals(memberDetailDTO.getMemberPassword())){
-            MultipartFile file = memberDetailDTO.getMemberFile();
+        if (memberEntity.getMemberPassword().equals(memberDetailDTO.getMemberPassword())) {
+            if (memberDetailDTO.getMemberFile() != null) {
 
-            File deleteFile = new File("D:\\development\\source\\SpringBoot\\MemberBoard\\src\\main\\resources\\static\\upload\\"+ memberEntity.getMemberFilename());
+                MultipartFile file = memberDetailDTO.getMemberFile();
 
-            String filename = file.getOriginalFilename();
+                File deleteFile = new File("D:\\development\\source\\SpringBoot\\MemberBoard\\src\\main\\resources\\static\\upload\\" + memberEntity.getMemberFilename());
 
-            filename = System.currentTimeMillis() + filename;
+                String filename = file.getOriginalFilename();
 
-            String savePath = "D:\\development\\source\\SpringBoot\\MemberBoard\\src\\main\\resources\\static\\upload\\"+filename;
+                filename = System.currentTimeMillis() + filename;
 
-            if (!file.isEmpty()) {
-                file.transferTo(new File(savePath));
-            }
-            if (deleteFile.exists()){
-                deleteFile.delete();
-                System.out.println("파일을 삭제합니다.");
+                String savePath = "D:\\development\\source\\SpringBoot\\MemberBoard\\src\\main\\resources\\static\\upload\\" + filename;
+
+                if (!file.isEmpty()) {
+                    file.transferTo(new File(savePath));
+                }
+                if (deleteFile.exists()) {
+                    deleteFile.delete();
+                    System.out.println("파일을 삭제합니다.");
+                } else {
+                    System.out.println("파일이 존재하지 않습니다.");
+                }
+
+                memberDetailDTO.setMemberFilename(filename);
             } else {
-                System.out.println("파일이 존재하지 않습니다.");
+                memberDetailDTO.setMemberFilename(memberEntity.getMemberFilename());
             }
-
-            memberDetailDTO.setMemberFilename(filename);
 
             mr.save(MemberEntity.toDetailMember(memberDetailDTO));
         } else {
