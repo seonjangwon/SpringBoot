@@ -2,7 +2,10 @@ package com.sjw.memberboard.controller;
 
 import com.sjw.memberboard.dto.BoardDetailDTO;
 import com.sjw.memberboard.dto.BoardSaveDTO;
+import com.sjw.memberboard.dto.CommentDetailDTO;
+import com.sjw.memberboard.dto.CommentSaveDTO;
 import com.sjw.memberboard.service.BoardService;
+import com.sjw.memberboard.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,6 +26,7 @@ import java.io.IOException;
 public class BoardController {
 
     private final BoardService bs;
+    private final CommentService cs;
     private final int BLOCK_LIMIT=3;
 
     @GetMapping("/save")
@@ -58,7 +63,10 @@ public class BoardController {
     @GetMapping("/{boardId}")
     public String findById(@PathVariable("boardId") Long boardId,Model model){
         BoardDetailDTO boardDetailDTO = bs.findById(boardId);
+        List<CommentDetailDTO> commentDetailDTOList = cs.findById(boardId);
         model.addAttribute("board",boardDetailDTO);
+        model.addAttribute("comment",commentDetailDTOList);
+        model.addAttribute("commentSave",new CommentSaveDTO());
         return "/board/findById";
     }
 

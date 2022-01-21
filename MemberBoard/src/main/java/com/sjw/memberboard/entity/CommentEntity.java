@@ -27,7 +27,7 @@ public class CommentEntity extends BaseEntity {
     private BoardEntity boardEntity;
 
 
-    private static CommentEntity toSaveComment(CommentSaveDTO commentSaveDTO, BoardEntity boardEntity, MemberEntity memberEntity) {
+    public static CommentEntity toSaveComment(CommentSaveDTO commentSaveDTO, BoardEntity boardEntity, MemberEntity memberEntity) {
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setBoardEntity(boardEntity);
         commentEntity.setCommentWriter(memberEntity.getMemberEmail());
