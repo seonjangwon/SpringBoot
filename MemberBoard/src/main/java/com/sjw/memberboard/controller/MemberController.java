@@ -54,8 +54,9 @@ public class MemberController {
     }
 
     @GetMapping("login")
-    public String loginForm(Model model){
+    public String loginForm(@RequestParam(value = "URL", defaultValue = "/") String URL, Model model){
         model.addAttribute("member",new MemberDetailDTO());
+        model.addAttribute("URL",URL);
         return "/member/login";
     }
 
@@ -68,7 +69,7 @@ public class MemberController {
             return "/member/login";
         }
 
-        return "index";
+        return memberDetailDTO.getURL();
     }
 
     @GetMapping("logout")

@@ -12,6 +12,7 @@
 <body>
 <h2>login</h2>
 <form action="/member/login" method="post" th:object="${member}">
+    <input type="hidden" name="URL" th:value="${URL}">
     <div th:if="${#fields.hasGlobalErrors()}">
         <p class="field_error" th:each="err : ${#fields.globalErrors()}" th:text="${err}" >글로벌오류자리</p>
     </div>

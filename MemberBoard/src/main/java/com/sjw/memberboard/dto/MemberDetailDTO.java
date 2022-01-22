@@ -25,6 +25,8 @@ public class MemberDetailDTO {
     private String memberFilename;
     private LocalDateTime memberTime;
 
+    private String URL;
+
     public static MemberDetailDTO toDetailMember(MemberEntity memberEntity) {
         MemberDetailDTO memberDetailDTO = new MemberDetailDTO();
         memberDetailDTO.setId(memberEntity.getId());
