@@ -100,17 +100,14 @@ public class MemberServiceImpl implements MemberService {
                 } else {
                     System.out.println("파일이 존재하지 않습니다.");
                 }
-
                 memberDetailDTO.setMemberFilename(filename);
             } else {
                 memberDetailDTO.setMemberFilename(memberEntity.getMemberFilename());
             }
-
             mr.save(MemberEntity.toDetailMember(memberDetailDTO));
         } else {
             throw new IllegalStateException("비밀번호가 틀립니다");
         }
-
     }
 
     @Override

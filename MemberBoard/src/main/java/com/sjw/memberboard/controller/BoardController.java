@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -107,7 +109,7 @@ public class BoardController {
 
     @GetMapping("/search")
     public String search(@PageableDefault(page = 0,size = 5,sort = "id",direction = Sort.Direction.DESC) Pageable pageable,
-                          @RequestParam("searchType") String searchType,
+                          @RequestParam("searchType") int searchType,
                           @RequestParam("keyword") String keyword,
                           Model model){
         System.out.println("BoardController.search");
@@ -124,6 +126,13 @@ public class BoardController {
         model.addAttribute("searchType",searchType);
         model.addAttribute("keyword",keyword);
         return "/board/search";
+    }
+
+    @DeleteMapping
+    @ResponseBody
+    public ResponseEntity delete(@RequestParam("boardId") Long boardId){
+        bs.delete(boardId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

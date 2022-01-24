@@ -69,7 +69,7 @@ public class MemberController {
             return "/member/login";
         }
 
-        return memberDetailDTO.getURL();
+        return "redirect:"+memberDetailDTO.getURL();
     }
 
     @GetMapping("logout")

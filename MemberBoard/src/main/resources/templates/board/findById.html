@@ -67,6 +67,21 @@
                 }
             });
         }
+        const board_delete_btn = (boardId) => {
+            $.ajax({
+                type:'delete',
+                url:'/board',
+                data:{"boardId":boardId},
+                dataType: 'text',
+                success:function (result){
+                    console.log(result)
+                    location.href="/board"
+                },
+                error: function (){
+                    alert("아작아작")
+                }
+            });
+        }
     </script>
 </head>
 <body>
@@ -99,8 +114,8 @@
             <p th:case="*">수정못함</p>
         </td>
         <td th:switch="${session.loginEmail}">
-            <p th:case="${board.boardWriter}"><a th:href="@{|/board/delete/${board.id}|}">삭제</a></p>
-            <p th:case="admin"><a th:href="@{|/board/delete/${board.id}|}">삭제</a></p>
+            <p th:case="${board.boardWriter}"><button th:onclick="board_delete_btn([[${board.id}]])">삭제</button></p>
+            <p th:case="admin"><button th:onclick="board_delete_btn([[${board.id}]])">삭제</button></p>
             <p th:case="*">삭제못함</p>
         </td>
     </tr>

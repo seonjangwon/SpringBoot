@@ -16,5 +16,7 @@ public interface BoardService {
 
     void update(BoardDetailDTO boardDetailDTO) throws IOException;
 
-    Page<BoardDetailDTO> searchList(Pageable pageable, String searchType, String keyword);
+    Page<BoardDetailDTO> searchList(Pageable pageable, int searchType, String keyword);
+
+    void delete(Long boardId);
 }

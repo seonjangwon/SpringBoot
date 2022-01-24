@@ -17,7 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(new AdminCheckInterceptor())
                 .order(2)
-                .addPathPatterns("/member/admin","/member/","/member/delete/*");
+                .addPathPatterns("/member/admin","/member/","/member/delete/*","/member/emailch");
     }
 
 

@@ -107,16 +107,16 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public Page<BoardDetailDTO> searchList(Pageable pageable, String searchType, String keyword) {
+    public Page<BoardDetailDTO> searchList(Pageable pageable, int searchType, String keyword) {
         System.out.println("BoardServiceImpl.searchList");
         Page<BoardEntity> Containing = null;
         System.out.println("pageable = " + pageable + ", searchType = " + searchType + ", keyword = " + keyword);
 
-        if (searchType == "title") {
+        if (searchType == 1) {
             System.out.println("t");
             Containing = br.findByBoardTitleContaining(keyword, pageable);
 
-        } else if (searchType == "writer") {
+        } else if (searchType == 2) {
             System.out.println("w");
             Containing = br.findByBoardWriterContaining(keyword, pageable);
         } else {
@@ -141,5 +141,10 @@ public class BoardServiceImpl implements BoardService {
         System.out.println("boardList.isFirst() = " + detailDTOS.isFirst()); // 처음 페이지인지 여부
         System.out.println("boardList.isLast() = " + detailDTOS.isLast()); // 마지막 페이지 인지
         return detailDTOS;
+    }
+
+    @Override
+    public void delete(Long boardId) {
+        br.deleteById(boardId);
     }
 }
