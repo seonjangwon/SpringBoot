@@ -41,7 +41,7 @@ public class BoardController {
     public String save(@ModelAttribute("board") BoardSaveDTO boardSaveDTO) throws IOException {
         bs.save(boardSaveDTO);
 
-        return "redirect:/board/findAll";
+        return "redirect:/board";
     }
 
 

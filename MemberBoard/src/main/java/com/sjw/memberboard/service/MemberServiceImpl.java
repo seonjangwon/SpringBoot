@@ -24,18 +24,19 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Long save(MemberSaveDTO memberSaveDTO) throws IOException {
-        MultipartFile file = memberSaveDTO.getMemberFile();
+            MultipartFile file = memberSaveDTO.getMemberFile();
 
-        String filename = file.getOriginalFilename();
+            String filename = file.getOriginalFilename();
 
-        filename = System.currentTimeMillis() + filename;
+            filename = System.currentTimeMillis() + filename;
 
-        String savePath = "D:\\development\\source\\SpringBoot\\MemberBoard\\src\\main\\resources\\static\\upload\\" + filename;
+            String savePath = "C:\\development\\source\\SpringBoot\\MemberBoard\\src\\main\\resources\\static\\upload\\" + filename;
 
-        if (!file.isEmpty()) {
-            file.transferTo(new File(savePath));
-        }
-        memberSaveDTO.setMemberFilename(filename);
+            if (!file.isEmpty()) {
+                file.transferTo(new File(savePath));
+            }
+
+            memberSaveDTO.setMemberFilename(filename);
 
         return mr.save(new MemberEntity().toSaveMember(memberSaveDTO)).getId();
 
@@ -83,13 +84,13 @@ public class MemberServiceImpl implements MemberService {
 
                 MultipartFile file = memberDetailDTO.getMemberFile();
 
-                File deleteFile = new File("D:\\development\\source\\SpringBoot\\MemberBoard\\src\\main\\resources\\static\\upload\\" + memberEntity.getMemberFilename());
+                File deleteFile = new File("C:\\development\\source\\SpringBoot\\MemberBoard\\src\\main\\resources\\static\\upload\\" + memberEntity.getMemberFilename());
 
                 String filename = file.getOriginalFilename();
 
                 filename = System.currentTimeMillis() + filename;
 
-                String savePath = "D:\\development\\source\\SpringBoot\\MemberBoard\\src\\main\\resources\\static\\upload\\" + filename;
+                String savePath = "C:\\development\\source\\SpringBoot\\MemberBoard\\src\\main\\resources\\static\\upload\\" + filename;
 
                 if (!file.isEmpty()) {
                     file.transferTo(new File(savePath));

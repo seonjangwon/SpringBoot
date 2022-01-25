@@ -29,7 +29,7 @@ public class BoardServiceImpl implements BoardService {
             String filename = file.getOriginalFilename();
             filename = System.currentTimeMillis() + filename;
 
-            String savePath = "D:\\development\\source\\SpringBoot\\MemberBoard\\src\\main\\resources\\static\\upload\\" + filename;
+            String savePath = "C:\\development\\source\\SpringBoot\\MemberBoard\\src\\main\\resources\\static\\upload\\" + filename;
 
             if (!file.isEmpty()) {
                 file.transferTo(new File(savePath));
@@ -85,9 +85,9 @@ public class BoardServiceImpl implements BoardService {
             String filename = file.getOriginalFilename();
             filename = System.currentTimeMillis() + filename;
 
-            File deleteFile = new File("D:\\development\\source\\SpringBoot\\MemberBoard\\src\\main\\resources\\static\\upload\\" + boardEntity.getBoardFilename());
+            File deleteFile = new File("C:\\development\\source\\SpringBoot\\MemberBoard\\src\\main\\resources\\static\\upload\\" + boardEntity.getBoardFilename());
 
-            String savePath = "D:\\development\\source\\SpringBoot\\MemberBoard\\src\\main\\resources\\static\\upload\\" + filename;
+            String savePath = "C:\\development\\source\\SpringBoot\\MemberBoard\\src\\main\\resources\\static\\upload\\" + filename;
 
             if (!file.isEmpty()) {
                 file.transferTo(new File(savePath));

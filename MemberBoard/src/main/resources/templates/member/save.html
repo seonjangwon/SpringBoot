@@ -7,14 +7,16 @@
 <script>
     function emailCh(){
         const email = document.getElementById('memberEmail').value;
+        const form = document.getElementById('save_form')
         $.ajax({
            type:'post',
            url:'/member/emailch',
             data:{"memberEmail": email},
             dataType:'text',
             success: function (result){
-               if(result=="ok"){
-                   save_form.submit();
+               console.log(result);
+               if(result ==="ok"){
+                   form.submit();
                }else {
                    alert("중복 이메일 입니다!");
                }
@@ -30,7 +32,7 @@
 </head>
 <body>
 <h2>save</h2>
-<form action="/member/save" method="post" name="save_form" enctype="multipart/form-data" th:object="${member}">
+<form action="/member/save" method="post" id="save_form" enctype="multipart/form-data" th:object="${member}">
     <input type="text" th:field="*{memberEmail}" placeholder="이메일"><br>
     <p th:if="${#fields.hasErrors('memberEmail')}" th:errors="*{memberEmail}" th:errorclass="field-error"></p>
     <input type="text" th:field="*{memberPassword}" placeholder="비밀번호"><br>
